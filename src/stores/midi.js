@@ -8,14 +8,16 @@ export default {
     availableInputs: [],
     availableOutputs: [],
     currentOutputName: null,
-    currentInputName: null
+    currentInputName: null,
+    force55MAP: false
   },
   getters: {
     getTracks: (state) => state.tracks,
     getInputs: (state) => state.availableInputs,
     getOutputs: (state) => state.availableOutputs,
     getCurrentInputDevice: (state) => state.availableInputs.find(input => input.name === state.currentInputName),
-    getCurrentOutputDevice: (state) => state.availableOutputs.find(output => output.name === state.currentOutputName)
+    getCurrentOutputDevice: (state) => state.availableOutputs.find(output => output.name === state.currentOutputName),
+    getForce55MAP: (state) => state.force55MAP
   },
   mutations: {
     initTracks (state) {
@@ -182,7 +184,7 @@ export default {
       const PCCh = 0xC0 + channel
       const BSCh = 0xB0 + channel
       const instrument = instruments[programChangeNumber + 1][bankSelectMSB]
-      const BSLParam = bankSelectLSB
+      const BSLParam = getters['getForce55MAP'] ? 0x01 : bankSelectLSB
       const BSMParam = !instrument ? 0x00 : bankSelectMSB
       midiOutput.send([BSCh, 0x20, BSLParam])
       midiOutput.send([BSCh, 0x00, BSMParam])
