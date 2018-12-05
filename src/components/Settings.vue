@@ -20,6 +20,12 @@
         {{ output.name }}
       </option>
     </select>
+    <label for="f55m">FORCE 55MAP:</label>
+    <input
+      type="checkbox"
+      id="f55m"
+      v-model="force55MAP"
+    >
   </div>
 </template>
 
@@ -31,12 +37,13 @@ export default {
     ...mapGetters('midi', { inputs: 'getInputs', outputs: 'getOutputs' })
   },
   methods: {
-    ...mapActions('midi', ['setDevices'])
+    ...mapActions('midi', ['setDevices', 'setForce55MAP'])
   },
   data () {
     return {
       input: '',
-      output: ''
+      output: '',
+      force55MAP: false
     }
   },
   watch: {
@@ -47,6 +54,9 @@ export default {
     output (newVal) {
       const payload = { input: this.input, output: newVal }
       this.setDevices(payload)
+    },
+    force55MAP (newVal) {
+      this.setForce55MAP(newVal)
     }
   }
 }

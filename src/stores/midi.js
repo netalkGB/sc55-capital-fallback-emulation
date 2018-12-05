@@ -62,6 +62,9 @@ export default {
     },
     setIsDrum (state, { channel, isDrum }) {
       state.tracks[channel].setIsDrum(isDrum)
+    },
+    setForce55MAP (state, force55MAP) {
+      state.force55MAP = force55MAP
     }
   },
   actions: {
@@ -89,6 +92,28 @@ export default {
       commit('setCurrentIO', payload)
       dispatch('start')
     },
+    setForce55MAP ({ commit, dispatch, getters }, f55m) {
+      commit('setForce55MAP', f55m)
+      const midiOutput = getters['getCurrentOutputDevice']
+      const midiInput = getters['getCurrentInputDevice']
+      if (!midiOutput || !midiInput) {
+        return
+      }
+      dispatch('sendForce55MAP')
+    },
+    sendForce55MAP ({ getters }) {
+      const midiOutput = getters['getCurrentOutputDevice']
+      const tracks = getters['getTracks']
+      for (let i = 0; i < 16; i++) {
+        const track = tracks[i]
+        const { programChangeNumber } = track
+        const BSCh = 0xB0 + i
+        const PCCh = 0xC0 + i
+        const bankSelectLSB = getters['getForce55MAP'] ? 1 : 0
+        midiOutput.send([BSCh, 0x20, bankSelectLSB])
+        midiOutput.send([PCCh, programChangeNumber])
+      }
+    },
     start ({ getters, commit, dispatch }) {
       commit('initTracks')
       const midiInput = getters['getCurrentInputDevice']
@@ -97,6 +122,7 @@ export default {
       if (!midiInput || !midiOutput) {
         return
       }
+      dispatch('sendForce55MAP')
       midiInput.onmidimessage = function (ev) {
         const { data } = ev
 
