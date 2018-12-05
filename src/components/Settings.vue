@@ -4,7 +4,7 @@
     <select v-model="input">
       <option
         v-for="input in inputs"
-        v-bind:value="input.id"
+        v-bind:value="input.name"
         :key="input.id"
       >
         {{ input.name }}
@@ -14,7 +14,7 @@
     <select v-model="output">
       <option
         v-for="output in outputs"
-        v-bind:value="output.id"
+        v-bind:value="output.name"
         :key="output.id"
       >
         {{ output.name }}

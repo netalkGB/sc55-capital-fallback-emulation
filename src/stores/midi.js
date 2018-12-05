@@ -7,15 +7,15 @@ export default {
     tracks: [],
     availableInputs: [],
     availableOutputs: [],
-    currentOutputID: null,
-    currentInputID: null
+    currentOutputName: null,
+    currentInputName: null
   },
   getters: {
     getTracks: (state) => state.tracks,
     getInputs: (state) => state.availableInputs,
     getOutputs: (state) => state.availableOutputs,
-    getCurrentInputDevice: (state) => state.availableInputs.find(input => input.id === state.currentInputID),
-    getCurrentOutputDevice: (state) => state.availableOutputs.find(output => output.id === state.currentOutputID)
+    getCurrentInputDevice: (state) => state.availableInputs.find(input => input.name === state.currentInputName),
+    getCurrentOutputDevice: (state) => state.availableOutputs.find(output => output.name === state.currentOutputName)
   },
   mutations: {
     initTracks (state) {
@@ -40,8 +40,8 @@ export default {
     },
     setCurrentIO (state, payload) {
       const { input, output } = payload
-      state.currentInputID = input
-      state.currentOutputID = output
+      state.currentInputName = input
+      state.currentOutputName = output
     },
     setProgramChange (state, payload) {
       const { channel, number } = payload
