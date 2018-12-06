@@ -35,7 +35,15 @@ const { mapGetters, mapActions } = createNamespacedHelpers('midi')
 
 export default {
   computed: {
-    ...mapGetters({ inputs: 'getInputs', outputs: 'getOutputs' })
+    ...mapGetters({ inputs: 'getInputs', outputs: 'getOutputs', getForce55MAP: 'getForce55MAP' }),
+    force55MAP: {
+      get () {
+        return this.getForce55MAP
+      },
+      set (value) {
+        this.setForce55MAP(value)
+      }
+    }
   },
   methods: {
     ...mapActions(['setDevices', 'setForce55MAP'])
@@ -43,8 +51,7 @@ export default {
   data () {
     return {
       input: '',
-      output: '',
-      force55MAP: false
+      output: ''
     }
   },
   watch: {
@@ -55,9 +62,6 @@ export default {
     output (newVal) {
       const payload = { input: this.input, output: newVal }
       this.setDevices(payload)
-    },
-    force55MAP (newVal) {
-      this.setForce55MAP(newVal)
     }
   }
 }
