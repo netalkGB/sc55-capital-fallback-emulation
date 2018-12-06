@@ -1,5 +1,4 @@
 import Track from '../others/Track'
-import instruments from '../others/instruments'
 
 export default {
   namespaced: true,
@@ -225,16 +224,15 @@ export default {
       const midiOutput = getters['getCurrentOutputDevice']
       const tracks = getters['getTracks']
       const track = tracks[channel]
-      const { bankSelectMSB, bankSelectLSB, programChangeNumber } = track
+      const { programChangeNumber } = track
       const PCCh = 0xC0 + channel
       const BSCh = 0xB0 + channel
-      const instrument = instruments[programChangeNumber + 1][bankSelectMSB]
-      const BSLParam = getters['getForce55MAP'] ? 0x01 : bankSelectLSB
-      const BSMParam = !instrument ? 0x00 : bankSelectMSB
+      const BSLParam = track.emulateBankSelectLSB
+      const BSMParam = track.emulateBankSelectMSB
       midiOutput.send([BSCh, 0x20, BSLParam])
       midiOutput.send([BSCh, 0x00, BSMParam])
       midiOutput.send([PCCh, programChangeNumber])
-      console.log(`%cEmulate: Channel: ${channel + 1}, Bank Select LSB: ${BSLParam}, Bank Select MSB${!instrument ? '(fake)' : ''}: ${BSMParam}, Program Change: ${programChangeNumber}`, 'color: blue;')
+      console.log(`%cEmulate: Channel: ${channel + 1}, Bank Select LSB: ${BSLParam}, Bank Select MSB: ${BSMParam}, Program Change: ${programChangeNumber}`, 'color: blue;')
     }
   }
 }

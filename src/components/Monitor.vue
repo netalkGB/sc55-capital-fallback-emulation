@@ -1,6 +1,11 @@
 <template>
   <div>
-    {{tracks}}
+    <div
+      v-for="track in tracks"
+      :key="track.channel"
+    >
+      {{track.channel}}:{{track.bankSelectMSB}}({{track.emulateBankSelectMSB}}){{track.bankSelectLSB}}{{track.programChangeNumber + 1}}{{track.getEmulatedName()}}
+    </div>
   </div>
 </template>
 
