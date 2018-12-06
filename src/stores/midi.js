@@ -68,9 +68,27 @@ export default {
     }
   },
   actions: {
-    async bootstrap ({ commit, dispatch }) {
+    async bootstrap ({ commit, dispatch, getters }) {
       commit('initTracks')
       await dispatch('getDevices')
+      await dispatch('loadConfig')
+      if (getters.currentInputName && getters.currentOutputName) {
+        await dispatch('start')
+      }
+    },
+    loadConfig ({ getters, dispatch }) {
+      let input = getters.getInputs.find(input => input.name === localStorage.inputName)
+      let output = getters.getOutputs.find(output => output.name === localStorage.outputName)
+      if (input && output) {
+        input = input.name
+        output = output.name
+        dispatch('setDevices', { input, output })
+      }
+    },
+    saveConfig (_, payload) {
+      const { input, output } = payload
+      localStorage.inputName = input
+      localStorage.outputName = output
     },
     getDevices ({ commit }) {
       return new Promise((resolve, reject) => {
@@ -90,6 +108,7 @@ export default {
     setDevices (ctx, payload) {
       const { commit, dispatch } = ctx
       commit('setCurrentIO', payload)
+      dispatch('saveConfig', payload)
       dispatch('start')
     },
     setForce55MAP ({ commit, dispatch, getters }, f55m) {
