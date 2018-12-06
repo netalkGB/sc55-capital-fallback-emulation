@@ -31,38 +31,41 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters, mapActions } = createNamespacedHelpers('midi')
+const { mapGetters, mapActions, mapState } = createNamespacedHelpers('midi')
 
 export default {
   computed: {
     ...mapGetters({ inputs: 'getInputs', outputs: 'getOutputs', getForce55MAP: 'getForce55MAP' }),
+    ...mapState(['currentInputName', 'currentOutputName']),
     force55MAP: {
       get () {
         return this.getForce55MAP
       },
-      set (value) {
-        this.setForce55MAP(value)
+      set (val) {
+        this.setForce55MAP(val)
+      }
+    },
+    input: {
+      get () {
+        return this.currentInputName
+      },
+      set (val) {
+        const payload = { input: val, output: this.output }
+        this.setDevices(payload)
+      }
+    },
+    output: {
+      get () {
+        return this.currentOutputName
+      },
+      set (val) {
+        const payload = { input: this.input, output: val }
+        this.setDevices(payload)
       }
     }
   },
   methods: {
     ...mapActions(['setDevices', 'setForce55MAP'])
-  },
-  data () {
-    return {
-      input: '',
-      output: ''
-    }
-  },
-  watch: {
-    input (newVal) {
-      const payload = { input: newVal, output: this.output }
-      this.setDevices(payload)
-    },
-    output (newVal) {
-      const payload = { input: this.input, output: newVal }
-      this.setDevices(payload)
-    }
   }
 }
 </script>
