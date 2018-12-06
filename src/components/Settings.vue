@@ -30,14 +30,15 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters, mapActions } = createNamespacedHelpers('midi')
 
 export default {
   computed: {
-    ...mapGetters('midi', { inputs: 'getInputs', outputs: 'getOutputs' })
+    ...mapGetters({ inputs: 'getInputs', outputs: 'getOutputs' })
   },
   methods: {
-    ...mapActions('midi', ['setDevices', 'setForce55MAP'])
+    ...mapActions(['setDevices', 'setForce55MAP'])
   },
   data () {
     return {

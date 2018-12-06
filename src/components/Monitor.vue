@@ -5,10 +5,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters } = createNamespacedHelpers('midi')
+
 export default {
   computed: {
-    ...mapGetters('midi', { tracks: 'getTracks' })
+    ...mapGetters({ tracks: 'getTracks' })
   }
 }
 </script>
