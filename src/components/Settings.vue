@@ -1,31 +1,37 @@
 <template>
-  <div>
-    input device
-    <select v-model="input">
-      <option
-        v-for="input in inputs"
-        v-bind:value="input.name"
-        :key="input.id"
+  <div class="settings">
+    <div class="item">
+      <div class="label">Input:</div>
+      <select v-model="input">
+        <option
+          v-for="input in inputs"
+          v-bind:value="input.name"
+          :key="input.id"
+        >
+          {{ input.name }}
+        </option>
+      </select>
+    </div>
+    <div class="item">
+      <div class="label">Output:</div>
+      <select v-model="output">
+        <option
+          v-for="output in outputs"
+          v-bind:value="output.name"
+          :key="output.id"
+        >
+          {{ output.name }}
+        </option>
+      </select>
+    </div>
+    <div class="item">
+      <label for="f55m">FORCE 55MAP:</label>
+      <input
+        type="checkbox"
+        id="f55m"
+        v-model="force55MAP"
       >
-        {{ input.name }}
-      </option>
-    </select>
-    output device
-    <select v-model="output">
-      <option
-        v-for="output in outputs"
-        v-bind:value="output.name"
-        :key="output.id"
-      >
-        {{ output.name }}
-      </option>
-    </select>
-    <label for="f55m">FORCE 55MAP:</label>
-    <input
-      type="checkbox"
-      id="f55m"
-      v-model="force55MAP"
-    >
+    </div>
   </div>
 </template>
 
@@ -70,5 +76,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.settings {
+  display: flex;
+  flex-wrap: wrap;
+}
+.label {
+  width: 70px;
+}
+.item {
+  display: flex;
+  margin: 4px;
+}
 </style>

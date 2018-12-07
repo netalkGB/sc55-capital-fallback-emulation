@@ -1,10 +1,25 @@
 <template>
   <div>
     <div
+      class="track"
       v-for="track in tracks"
       :key="track.channel"
     >
-      {{track.channel}}:{{track.bankSelectMSB}}({{track.emulateBankSelectMSB}}){{track.bankSelectLSB}}{{track.programChangeNumber + 1}}{{track.getEmulatedName()}}
+      <div class="channel">
+        {{track.channel}}
+      </div>
+      <div class="bsmsb">
+        {{track.bankSelectMSB}}
+      </div>
+      <div class="bsmsb">
+        {{track.emulateBankSelectMSB}}
+      </div>
+      <div class="programChange">
+        {{track.programChangeNumber + 1}}
+      </div>
+      <div>
+        <span v-if="track.bankSelectMSB !== track.emulateBankSelectMSB">[EMULATE]</span>{{track.getEmulatedName()}}
+      </div>
     </div>
   </div>
 </template>
@@ -20,5 +35,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.track {
+  display: flex;
+}
+.channel {
+  width: 30px;
+}
+.bsmsb {
+  width: 60px;
+}
+.programChange {
+  width: 45px;
+}
 </style>
