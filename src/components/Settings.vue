@@ -82,7 +82,7 @@ export default {
   flex-wrap: wrap;
 }
 .label {
-  width: 70px;
+  width: 50px;
 }
 .item {
   display: flex;

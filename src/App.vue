@@ -16,7 +16,9 @@ export default {
 </script>
 
 <style>
-* {
-  color: #333333
+html,body,select {
+  color: #333333;
+  font-size: 12px;
+  user-select: none;
 }
 </style>

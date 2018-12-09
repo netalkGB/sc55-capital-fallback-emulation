@@ -1,34 +1,21 @@
 <template>
-  <div>
-    <div
-      class="track"
+  <div class="tracks">
+    <Track
       v-for="track in tracks"
       :key="track.channel"
-    >
-      <div class="channel">
-        {{track.channel}}
-      </div>
-      <div class="bsmsb">
-        {{track.bankSelectMSB}}
-      </div>
-      <div class="bsmsb">
-        {{track.emulateBankSelectMSB}}
-      </div>
-      <div class="programChange">
-        {{track.programChangeNumber + 1}}
-      </div>
-      <div>
-        <span v-if="track.bankSelectMSB !== track.emulateBankSelectMSB">[EMULATE]</span>{{track.getEmulatedName()}}
-      </div>
-    </div>
+      :track="track"
+    />
   </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import Track from './Track'
 const { mapGetters } = createNamespacedHelpers('midi')
-
 export default {
+  components: {
+    Track
+  },
   computed: {
     ...mapGetters({ tracks: 'getTracks' })
   }
@@ -36,16 +23,8 @@ export default {
 </script>
 
 <style scoped>
-.track {
-  display: flex;
+.tracks {
+  width: 360px;
 }
-.channel {
-  width: 30px;
-}
-.bsmsb {
-  width: 60px;
-}
-.programChange {
-  width: 45px;
-}
+
 </style>
