@@ -224,10 +224,10 @@ export default {
       const midiOutput = getters['getCurrentOutputDevice']
       const tracks = getters['getTracks']
       const track = tracks[channel]
-      const { programChangeNumber } = track
+      const { programChangeNumber, bankSelectLSB } = track
       const PCCh = 0xC0 + channel
       const BSCh = 0xB0 + channel
-      const BSLParam = track.emulateBankSelectLSB
+      const BSLParam = bankSelectLSB
       const BSMParam = track.emulateBankSelectMSB
       midiOutput.send([BSCh, 0x20, BSLParam])
       midiOutput.send([BSCh, 0x00, BSMParam])
