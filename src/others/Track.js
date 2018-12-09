@@ -17,6 +17,7 @@ export default class Track {
   }
   setBankSelectMSB (param) {
     this.bankSelectMSB = param
+    this.emulateBankSelectMSB = this.generateEmulatedBankSelectMSB()
   }
   generateEmulatedBankSelectMSB () {
     if (this.isDrum) {
@@ -41,6 +42,7 @@ export default class Track {
   }
   setBankSelectLSB (param) {
     this.bankSelectLSB = param
+    this.emulateBankSelectMSB = this.generateEmulatedBankSelectMSB()
   }
   setProgramChange (param) {
     this.programChangeNumber = param
